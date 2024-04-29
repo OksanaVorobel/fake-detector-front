@@ -17,13 +17,13 @@ export default function Header() {
     const {logOut} = useActions()
 
     const handleLogout = () => {
-        logOut()
-        navigate('/')
+        logOut();
+        navigate('/');
     }
     return (
     <header className="header">
       <div className="logo">
-          <Link className="logo" to="/">FakeImageDetector</Link>
+          <Link className="logo" to="/">Fake Image Detector</Link>
       </div>
       <nav className="nav">
           {isAuthorized

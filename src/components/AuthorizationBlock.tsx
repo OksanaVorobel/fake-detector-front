@@ -44,18 +44,17 @@ function SignIn() {
       setPasswordError('');
     }
 
-    try {
-      await login({email, password});
-      logIn();
-      navigate('/detect');
-    } catch (error: any) {
+    login({ email, password })
+    .then(() => logIn()).then(() => navigate('/detect'))
+    .catch((error: any) => {
       console.error('Login failed', error);
-      if (error.response && error.response.status === 401) {
-        setLoginError('Invalid email or password');
-      } else {
-        setLoginError('An error occurred while logging in');
-      }
+
+    if (error.response && error.response.status === 401) {
+      setLoginError('Invalid email or password');
+    } else {
+      setLoginError('An error occurred while logging in');
     }
+  });
   };
 
   return (

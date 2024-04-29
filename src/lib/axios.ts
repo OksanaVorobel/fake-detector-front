@@ -6,7 +6,7 @@ import Axios, {
 
 import storage from './storage';
 
-const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = 'http://localhost:8000';
 
 export const api: AxiosInstance = Axios.create({
   baseURL: BASE_URL,
