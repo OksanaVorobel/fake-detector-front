@@ -9,12 +9,8 @@ import {useNavigate} from "react-router-dom";
 
 export default function Header() {
     const navigate = useNavigate();
-    const {
-        isAuthorized,
-        // user
-    } = useAppSelector(state => state.userDuck)
-    console.log("isAuthorized", isAuthorized)
-    const {logOut} = useActions()
+    const { isAuthorized} = useAppSelector(state => state.userDuck)
+    const { logOut } = useActions()
 
     const handleLogout = () => {
         logOut();
@@ -23,7 +19,7 @@ export default function Header() {
     return (
     <header className="header">
       <div className="logo">
-          <Link className="logo" to="/">Fake Image Detector</Link>
+          <Link className="logo" to={isAuthorized ? "/detect" : "/"} >Fake Image Detector</Link>
       </div>
       <nav className="nav">
           {isAuthorized

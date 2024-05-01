@@ -1,37 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
+import storage from "../lib/storage";
 
-
-export type User = {
-    id: string
-    email: string
-    first_name: string
-    last_name: string
-}
 
 interface InitialState {
     isAuthorized: boolean
-    user: User | null
 }
 
 const initialState: InitialState = {
-    isAuthorized: false,
-    user: null
+    isAuthorized: !!storage.getToken(),
 };
 
 export const {actions, reducer} = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        logIn:(state,
-               // {payload}: PayloadAction<User>
-        ) => {
-            // state.user = payload
-            state.isAuthorized = true
+       logIn:(state) => {
+            state.isAuthorized = true;
         },
         logOut: (state) => {
-            state.user = null
-            state.isAuthorized = false
-            localStorage.removeItem('FAKEDETECTOR_token')
+            state.isAuthorized = false;
+            storage.clearToken();
         }
     },
 });

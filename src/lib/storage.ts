@@ -12,7 +12,6 @@ const storage = {
   },
   setToken: (token: string) => {
     saveItem(`${storagePrefix}token`, JSON.stringify(token));
-    console.log("token", token, JSON.parse(getStoredItem(`${storagePrefix}token`)))
   },
   getToken: () => JSON.parse(getStoredItem(`${storagePrefix}token`)),
   getLoginTime: () => getStoredItem(`${storagePrefix}timestamp`),

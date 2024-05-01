@@ -5,7 +5,7 @@ import './Layout.css';
 const { Content } = Layout;
 
 interface DefaultLayoutProps {
-  children: ReactNode; // Використовуємо ReactNode для передачі будь-якого типу дитячих компонентів
+  children: ReactNode;
 }
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {

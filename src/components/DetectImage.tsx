@@ -40,7 +40,7 @@ const DetectImage: React.FC = () => {
       const predictResponse = await predictImage(ela);
       const { data: { fake } } = predictResponse;
 
-      setResult(fake);
+      setResult(Math.round(fake * 10000) / 10000);
     } catch (error) {
       console.error('Error:', error);
     }

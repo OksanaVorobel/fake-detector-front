@@ -18,7 +18,7 @@ import {useActions} from "../hooks/useActions";
 
 function SignIn() {
   const navigate = useNavigate();
- const { logIn } = useActions();
+  const { logIn } = useActions();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,14 +47,13 @@ function SignIn() {
     login({ email, password })
     .then(() => logIn()).then(() => navigate('/detect'))
     .catch((error: any) => {
-      console.error('Login failed', error);
-
-    if (error.response && error.response.status === 401) {
-      setLoginError('Invalid email or password');
-    } else {
-      setLoginError('An error occurred while logging in');
-    }
-  });
+      console.error('Login failed', error.response);
+      if (error.response && error.response.status === 400) {
+        setLoginError('Invalid email or password');
+      } else {
+        setLoginError('An error occurred while logging in');
+      }
+    });
   };
 
   return (

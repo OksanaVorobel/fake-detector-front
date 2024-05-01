@@ -8,12 +8,6 @@
     src: url('../public/fonts/avenir_roman_12.otf') format('truetype');
 }
 
-.navbar_label{
-    font-size: 1.8rem;
-    font-family: Circularstd;
-    color: #ffffff;
-}
-
 .section-header{
     font-size: 4rem;
     font-family: Circularstd
@@ -107,13 +101,4 @@
     text-align: center;
     border-radius: 70%;
     background-color: #edfdfb;
-}
-
-.logoutBtn {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
-  width: 80%;
-  display: flex;
-  align-items: center;
 }
