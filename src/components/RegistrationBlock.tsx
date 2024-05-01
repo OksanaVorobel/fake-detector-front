@@ -1,92 +1,81 @@
 import React, { useState } from 'react';
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCheckbox, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBRow } from 'mdb-react-ui-kit';
-import {signup} from "../features/auth/model";
+import {
+  MDBBtn, MDBCard, MDBCardBody, MDBCardImage,
+  MDBCheckbox, MDBCol, MDBContainer, MDBIcon,
+  MDBInput, MDBRow
+} from 'mdb-react-ui-kit';
+
+import { signup } from "../features/auth/model";
+import { useNavigate } from "react-router-dom";
+import { useActions } from "../hooks/useActions";
 
 function SignUp() {
+  const navigate = useNavigate();
+  const { logIn } = useActions();
+
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [termsAgreed, setTermsAgreed] = useState(false);
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [repeatPasswordError, setRepeatPasswordError] = useState('');
-  const [registrationError, setRegistrationError] = useState('');
+  const [ValidationError, setValidationError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationError('');
 
     // Basic first name validation
     if (!first_name.trim()) {
-      setFirstNameError('First name is required');
+      setValidationError('First name is required');
       return;
-    } else {
-      setFirstNameError('');
     }
 
     // Basic last name validation
     if (!last_name.trim()) {
-      setLastNameError('Last name is required');
+      setValidationError('Last name is required');
       return;
-    } else {
-      setLastNameError('');
     }
 
     // Basic email validation
     if (!email || !email.includes('@')) {
-      setEmailError('Please enter a valid email address');
+      setValidationError('Please enter a valid email address');
       return;
-    } else {
-      setEmailError('');
     }
 
     // Basic password validation
     if (!password || password.length < 6) {
-      setPasswordError('Password must be at least 6 characters long');
+      setValidationError('Password must be at least 6 characters long');
       return;
-    } else {
-      setPasswordError('');
     }
 
     // Basic repeat password validation
     if (password !== repeatPassword) {
-      setRepeatPasswordError('Passwords do not match');
+      setValidationError('Passwords do not match');
       return;
-    } else {
-      setRepeatPasswordError('');
     }
 
     // Check if terms are agreed
     if (!termsAgreed) {
-      setRegistrationError('Please agree to the terms of service');
+      setValidationError('Please agree to the terms of service');
       return;
-    } else {
-      setRegistrationError('');
     }
 
-    try {
-      // Make API call to register user
-      await signup({
-        first_name,
-        last_name,
-        email,
-        password,
-      });
-      // Handle successful registration
-      console.log('Registration successful');
-    } catch (error: any) {
-      // Handle login error
-      console.error('Login failed', error);
-      if (error.response && error.response.status === 401) {
-        setRegistrationError('User with such email already exist');
-      } else {
-        setRegistrationError('An error occurred while registering');
-      }
-    }
-  };
+    signup({
+      first_name,
+      last_name,
+      email,
+      password,
+    })
+        .then(() => logIn()).then(() => navigate('/detect'))
+        .catch((error: any) => {
+          if (error.response && error.response.status === 400) {
+            setValidationError('User with such email already exist. Try another one');
+          } else {
+            setValidationError('An error occurred while registering');
+          }
+        });
+  }
 
   return (
     <MDBContainer>
@@ -109,7 +98,6 @@ function SignUp() {
                     required
                   />
                 </div>
-                {firstNameError && <div className="text-danger">{firstNameError}</div>}
 
                 <div className="d-flex flex-row align-items-center mb-4">
                   <MDBIcon fas icon="user me-3" size='lg'/>
@@ -123,7 +111,6 @@ function SignUp() {
                     required
                   />
                 </div>
-                {lastNameError && <div className="text-danger">{lastNameError}</div>}
 
                 <div className="d-flex flex-row align-items-center mb-4">
                   <MDBIcon fas icon="envelope me-3" size='lg'/>
@@ -136,7 +123,6 @@ function SignUp() {
                     required
                   />
                 </div>
-                {emailError && <div className="text-danger">{emailError}</div>}
 
                 <div className="d-flex flex-row align-items-center mb-4">
                   <MDBIcon fas icon="lock me-3" size='lg'/>
@@ -149,7 +135,6 @@ function SignUp() {
                     required
                   />
                 </div>
-                {passwordError && <div className="text-danger">{passwordError}</div>}
 
                 <div className="d-flex flex-row align-items-center mb-4">
                   <MDBIcon fas icon="key me-3" size='lg'/>
@@ -162,7 +147,6 @@ function SignUp() {
                     required
                   />
                 </div>
-                {repeatPasswordError && <div className="text-danger">{repeatPasswordError}</div>}
 
                 <div className='mb-4'>
                   <MDBCheckbox
@@ -174,9 +158,9 @@ function SignUp() {
                     required
                   />
                 </div>
-                {registrationError && <div className="text-danger">{registrationError}</div>}
 
                 <MDBBtn type="submit" className='mb-4' size='lg'>Register</MDBBtn>
+                {ValidationError && <div className="text-danger">{ValidationError}</div>}
               </MDBCol>
 
               <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex flex-column align-items-center'>
