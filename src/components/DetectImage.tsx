@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { IoIosSync, IoIosShareAlt  } from 'react-icons/io';
 
 import './DetectImage.css';
-import {predictImage, uploadImage} from "../features/image/model";
-import {BASE_URL} from "../lib/axios";
+import {addImage, getImageFileUrl, predictImage, uploadImage} from "../features/image/model";
 
 const DetectImage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -11,6 +10,7 @@ const DetectImage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showOriginal, setShowOriginal] = useState(true);
   const [elaImageUrl, setElaImageUrl] = useState<string | undefined>(undefined);
+  const [originalImageUrl, setOriginalImageUrl] = useState<string | undefined>(undefined);
 
   const toggleImage = () => {
     setShowOriginal(!showOriginal);
@@ -34,13 +34,25 @@ const DetectImage: React.FC = () => {
     if (!file) return;
     try {
       const uploadResponse = await uploadImage(file);
-      const { data: { ela } } = uploadResponse;
+      const { data: { ela, origin } } = uploadResponse;
       setElaImageUrl(ela);
+      setOriginalImageUrl(origin);
 
       const predictResponse = await predictImage(ela);
       const { data: { fake } } = predictResponse;
 
       setResult(Math.round(fake * 10000) / 10000);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const addImages = async () => {
+    if (!originalImageUrl || !result || !elaImageUrl) return;
+    try {
+      const { data }  = await addImage(originalImageUrl, elaImageUrl, result);
+      console.log(data)
+
     } catch (error) {
       console.error('Error:', error);
     }
@@ -57,7 +69,7 @@ const DetectImage: React.FC = () => {
           <div className="uploader-content">
             {result && file && (
                 <div className="icon-container icon-container-share">
-                  <IoIosShareAlt className="toggle-icon" size={35}/>
+                  <IoIosShareAlt className="toggle-icon" size={35} onClick={addImages}/>
                 </div>
             )}
             {result && file && (
@@ -70,7 +82,7 @@ const DetectImage: React.FC = () => {
               {selectedImage ? (
                   <img alt="Selected" className="selected-image" src={showOriginal
                       ? selectedImage
-                      : `${BASE_URL}/images/by-path/?image_path=${elaImageUrl}`
+                      : getImageFileUrl(elaImageUrl)
                   }
                   />
               ) : (

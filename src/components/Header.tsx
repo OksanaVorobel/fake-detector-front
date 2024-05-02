@@ -23,7 +23,10 @@ export default function Header() {
       </div>
       <nav className="nav">
           {isAuthorized
-              ? <Button className="nav-item" type="primary" onClick={handleLogout}>Logout</Button>
+              ? <div>
+                  <Button className="nav-item" type="primary" href="/history">History</Button>
+                  <Button className="nav-item" type="primary" onClick={handleLogout}>Logout</Button>
+              </div>
               : <Button className="nav-item" type="primary" href="/login">Login</Button>
           }
       </nav>
