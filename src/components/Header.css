@@ -22,7 +22,8 @@
   color: #18394c;
   background-color: #A7C5EB;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 15px;
+  margin-left: 10px;
    &:hover,
    &:focus {
      color: lightgray;
