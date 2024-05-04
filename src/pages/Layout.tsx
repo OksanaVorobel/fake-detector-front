@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import { Layout } from 'antd';
-import './Layout.css';
+import '../styles/Layout.css';
 
 const { Content } = Layout;
 

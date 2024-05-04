@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 
-import './Header.css';
+import '../styles/Header.css';
 import {useAppSelector} from "../hooks/reduxHooks";
 import {useActions} from "../hooks/useActions";
 import {useNavigate} from "react-router-dom";

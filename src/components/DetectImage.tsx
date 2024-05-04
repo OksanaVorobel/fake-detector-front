@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IoIosSync, IoIosShareAlt  } from 'react-icons/io';
 
-import './DetectImage.css';
+import '../styles/DetectImage.css';
 import {addImage, getImageFileUrl, predictImage, uploadImage} from "../features/image/model";
 
 const DetectImage: React.FC = () => {
@@ -58,6 +58,16 @@ const DetectImage: React.FC = () => {
     }
   };
 
+  const getFakeColor = (rate: number) => {
+    if (rate <= 0.4) {
+      return 'green'
+    }
+    if (rate >= 0.6) {
+        return 'red'
+    }
+    return 'orange'
+  }
+
   return (
       <div>
       <h1>Fake Image Checker</h1>
@@ -102,7 +112,7 @@ const DetectImage: React.FC = () => {
                   : <button className="uploadImageButton">Upload Image</button>
             }
             {result && file && (
-                <div className="result-block" style={{backgroundColor: result >= 0.5 ? 'red' : 'green'}}>
+                <div className="result-block" style={{backgroundColor: getFakeColor(result)}}>
                   <h2>Fake for</h2>
                   <p>{result}%</p>
                 </div>

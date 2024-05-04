@@ -1,13 +1,3 @@
-@font-face {
-    font-family: 'Circularstd';
-    src: url('../public/fonts/circular-std-medium-500.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Avenir';
-    src: url('../public/fonts/avenir_roman_12.otf') format('truetype');
-}
-
 .section-header{
     font-size: 4rem;
     font-family: Circularstd
@@ -86,19 +76,4 @@
 .guide-line{
     border-bottom: 1px solid rgba(116, 148, 140, 0.16);
     margin: 1rem 0;
-}
-
-.circular-shape{
-    position: relative;
-    left: 130px;
-    bottom:-90px;
-    display:flex;
-    width: 700px;
-    height: 700px;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border-radius: 70%;
-    background-color: #edfdfb;
 }

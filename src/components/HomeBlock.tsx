@@ -55,7 +55,7 @@ const HomeBlock = () => {
                         How it works
                     </h1>
                     <h3 className='mb-4 text-center section-subtitle'>
-                        Curious about the magic behind our image colorization tool?
+                        Curious about the magic behind our fake image detection tool?
                     </h3>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5rem'}}>
                         <img

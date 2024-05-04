@@ -3,7 +3,7 @@ import { IoMdTrash } from "react-icons/io";
 
 import {deleteImage, getImageFileUrl, getImages} from "../features/image/model";
 import {AddImageResponse} from "../features/image/types";
-import './HistoryComponent.css';
+import '../styles/HistoryComponent.css';
 
 
 interface ImageDisplayed {
@@ -50,6 +50,16 @@ const HistoryComponent = () => {
     fetchHistory();
   }, []);
 
+   const getFakeColor = (rate: number) => {
+    if (rate <= 0.4) {
+      return 'green'
+    }
+    if (rate >= 0.6) {
+        return 'red'
+    }
+    return 'orange'
+  }
+
   return (
     <div className="history-container">
       <h1>History</h1>
@@ -67,7 +77,7 @@ const HistoryComponent = () => {
               </div>
               <p
                   className="falsity-percentage"
-                  style={{backgroundColor: item.percentage_of_falsity >= 0.5 ? 'red' : 'green'}}
+                  style={{backgroundColor: getFakeColor(item.percentage_of_falsity)}}
               >
                 Percentage of falsity: {Math.round(item.percentage_of_falsity * 100) / 100}
               </p>
